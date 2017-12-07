@@ -17,3 +17,13 @@
 ## 说明
 
 - 由于算法文章有很多数学公式，MarkDown是支持LaTex语法的，但是GitHub不能对LaTex进行渲染，可以下载Chrome插件[GitHub With MathJax](https://chrome.google.com/webstore/detail/github-with-mathjax/ioemnmodlmafdkllaclgeombjnmnbima)来正确渲染数学公式。
+
+## 周刊
+
+|                    📕                    |  📗  |  📘  |  📙  |  📚  |
+| :--------------------------------------: | :--: | :--: | :--: | :--: |
+| [**第01期**](https://github.com/neuclil/happy-algorithms/tree/master/%E7%AC%AC01%E6%9C%9F) |      |      |      |      |
+|                                          |      |      |      |      |
+|                                          |      |      |      |      |
+|                                          |      |      |      |      |
+
