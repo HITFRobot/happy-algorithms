@@ -57,17 +57,17 @@
 
 这是最简单的方式，但是会存在问题，我们看下面的这个例子:
 
-![](./images/k-means/random init.png)
+![](https://github.com/neuclil/happy-algorithms/blob/master/%E7%AC%AC03%E6%9C%9F/images/k-means/random%20init.png?raw=true)
 
 由于，我们采用了随机初始化的方式，对于这个样本，我们随机初始化的三个点如上图的绿、红、黑三个样本点，再后面的迭代中，我们最后的聚类簇如上图的箭头所示，这样的效果好吗？显然是不好的，为什么呢？因为很显然最左边三个、中间三个、最右边三个应该是被归为一个聚类簇的:
 
-![](./images/k-means/random init2.png)
+![](https://github.com/neuclil/happy-algorithms/blob/master/%E7%AC%AC03%E6%9C%9F/images/k-means/random%20init2.png?raw=true)
 
 我们可以看到，聚类中心初始化得不好，直接影响我们最后聚类的效果，可能上面举的例子样本分布和初始化聚类中心太极端，不能说明问题， 我们现在假设样本的分布是高斯分布的情况下，聚类中心初始化不好导致的最后聚类的效果:
 
-![](./images/k-means/random init3.png)
+![](https://github.com/neuclil/happy-algorithms/blob/master/%E7%AC%AC03%E6%9C%9F/images/k-means/random%20init3.png?raw=true)
 
-![](./images/k-means/random init4.png)
+![](https://github.com/neuclil/happy-algorithms/blob/master/%E7%AC%AC03%E6%9C%9F/images/k-means/random%20init4.png?raw=true)
 
 我们现在计算一下假设有k个高斯分布，我们随机初始化正确的概率有大(所谓正确是指任何两个随机初始化中心不在同一个高斯分布中):$\frac {k!}{k^k} \approx \frac {1}{e^k}$，当k增大时，这个概率会越来越低。
 
@@ -85,15 +85,15 @@
 
 这种方法解决了随机初始化高斯分布例子中的问题:
 
-![](./images/k-means/dist 1.png)
+![](https://github.com/neuclil/happy-algorithms/blob/master/%E7%AC%AC03%E6%9C%9F/images/k-means/dist%201.png?raw=true)
 
-![](./images/k-means/dist 2.png)
+![](https://github.com/neuclil/happy-algorithms/blob/master/%E7%AC%AC03%E6%9C%9F/images/k-means/dist%202.png?raw=true)
 
-![](./images/k-means/dist 3.png)
+![](https://github.com/neuclil/happy-algorithms/blob/master/%E7%AC%AC03%E6%9C%9F/images/k-means/dist%203.png?raw=trueg)
 
 但是，这种方法的问题是容易受噪声点干扰，请看下面的例子:
 
-![](./images/k-means/dist 4.png)
+![](https://github.com/neuclil/happy-algorithms/blob/master/%E7%AC%AC03%E6%9C%9F/images/k-means/dist%204.png?raw=true)
 
 所有这种方式进行初始化也是不行的，一旦出现噪声点，就极大的影响了最后聚类的结果。虽然实际上，几乎没有哪一个k-means算法会采用上面两种初始化方式，但是这里这样介绍是顺着我们的思维方式进行的，一般思考的方式都是从简单到复杂，所有下面，我们也顺理成章的引出`k-means++`这个初始化算法， 个人认为这个算法反映出随机化思想在算法中的重要性。
 
