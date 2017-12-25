@@ -10,8 +10,8 @@
 
 ​	基于这个定义，选择不同的距离计算公式，有以下三种具体的算法:
 
-- **k-means**: find center partitions $c_1, c_2, …, c_k$ to minimize $\sum _{i=1}^n min_{j \in\{i, …,k\}}d^2(x^i, c_j)$ 
-- **k-median**: find center partitions $c_1, c_2, …, c_k$ to minimize $\sum _{i=1}^n min_{j \in\{i, …,k\}}d(x^i, c_j)$ 
+- **k-means**: find center partitions $c_1, c_2, …, c_k$ to minimize $ \sum _{i=1}^n min_{j \in\{i, …,k\}}d^2(x^i, c_j)$ 
+- **k-median**: find center partitions $c_1, c_2, …, c_k$ to minimize $ \sum _{i=1}^n min_{j \in\{i, …,k\}}d(x^i, c_j)$ 
 - **k-center**: find partition to minimize the maximum radius
 
 ## Euclidean k-means clustering
