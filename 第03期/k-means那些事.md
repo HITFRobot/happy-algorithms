@@ -31,9 +31,8 @@
 > **Initialize** centers $c1, c2, …, ck \in R^d$ and clusters $C_1, C_2, …, C_k$ in any way.
 >
 > **Repeat** until there is no further change in the cost.
->
->       	     1. For each j: $C_j <- \{x \in S\ whose\ closest\ center\ is\ c_j\}$
->       	     2. For each j: $c_j <- mean\ of\ C_j $
+>  1. For each j: $C_j <- \{x \in S\ whose\ closest\ center\ is\ c_j\}$
+>  2. For each j: $c_j <- mean\ of\ C_j $
 
 对于该算法，难度不是特别大，最重要的地方在Repeat中的1，2两个步骤，其中，步骤1将固定住聚类中心$c_1, c_2, …, c_k$，更新聚类集$C_1, C_2, …, C_k$。步骤2固定住聚类集$C_1, C_2, …, C_k$，更新聚类中心$c_1, c_2, …, c_k$。
 
