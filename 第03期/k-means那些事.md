@@ -58,7 +58,7 @@ $$ \sum min_{j \in \{1,…,k\}}||x^i - c_j||^2 $$
 
 ### 1. Random Initialization
 
-这是最简单的方式，但是会存在问题，我们看下面的这个例子:
+在种方式是最简单的方式，就是随机选k个点作为聚类中心，虽然简单，但是会存在问题，我们看下面的这个例子:
 
 ![](https://github.com/neuclil/happy-algorithms/blob/master/%E7%AC%AC03%E6%9C%9F/images/k-means/random%20init.png?raw=true)
 
@@ -66,7 +66,7 @@ $$ \sum min_{j \in \{1,…,k\}}||x^i - c_j||^2 $$
 
 ![](https://github.com/neuclil/happy-algorithms/blob/master/%E7%AC%AC03%E6%9C%9F/images/k-means/random%20init2.png?raw=true)
 
-我们可以看到，聚类中心初始化得不好，直接影响我们最后聚类的效果，可能上面举的例子样本分布和初始化聚类中心太极端，不能说明问题， 我们现在假设样本的分布是高斯分布的情况下，聚类中心初始化不好导致的最后聚类的效果:
+我们可以看到，聚类中心初始化得不好，直接影响我们最后聚类的效果，可能上面举的例子样本分布和初始化聚类中心太极端，不能说明问题， 我们现在假设样本的分布是多个高斯分布的情况下，聚类中心初始化不好导致的最后聚类的效果:
 
 ![](https://github.com/neuclil/happy-algorithms/blob/master/%E7%AC%AC03%E6%9C%9F/images/k-means/random%20init3.png?raw=true)
 
