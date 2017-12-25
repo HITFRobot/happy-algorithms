@@ -11,9 +11,9 @@
 ​	基于这个定义，选择不同的距离计算公式，有以下三种具体的算法:
 
 - **k-means**: find center partitions $c_1, c_2, …, c_k$ to minimize 
-$$ \sum min_{j \in\{i, …,k\}}d^2(x^i, c_j) $$ 
+  $$ \sum min_{j \in\{i, …,k\}}d^2(x^i, c_j) $$ 
 - **k-median**: find center partitions $c_1, c_2, …, c_k$ to minimize 
-$$ \sum min_{j \in\{i, …,k\}}d(x^i, c_j) $$ 
+  $$ \sum min_{j \in\{i, …,k\}}d(x^i, c_j) $$ 
 - **k-center**: find partition to minimize the maximum radius
 
 ## Euclidean k-means clustering
@@ -25,7 +25,7 @@ $$ \sum min_{j \in\{i, …,k\}}d(x^i, c_j) $$
 > **Output**: k representatives $c_1, c_2, …, c_k \in R^d$ 
 >
 > **Objective**: choose $c_1, c_2, …, c_k \in R^d$ to minimize  
-$$ \sum min_{j \in \{1,…,k\}}||x^i - c_j||^2 $$
+> $$ \sum min_{j \in \{1,…,k\}}||x^i - c_j||^2 $$
 
 求解该算法的最优解是一个NP难的问题，所有我们没有办法获得最优解，当然，当k=1或d=1这种特殊情况下，是可以获得最优解，有兴趣的可以自行推导一下， 这里不在赘述，这里我们主要介绍Lloyd's method[1]，该方法的核心算法如下:
 
@@ -34,8 +34,8 @@ $$ \sum min_{j \in \{1,…,k\}}||x^i - c_j||^2 $$
 > **Initialize** centers $c_1, c_2, …, c_k \in R^d$ and clusters $C_1, C_2, …, C_k$ in any way.
 >
 > **Repeat** until there is no further change in the cost.
->  1. For each j: $C_j <- \{x \in S\ whose\ closest\ center\ is\ c_j\}$
->  2. For each j: $c_j <- mean\ of\ C_j $
+>   1. For each j: $C_j <- \{x \in S\ whose\ closest\ center\ is\ c_j\}$
+>   2. For each j: $c_j <- mean\ of\ C_j $
 
 对于该算法，难度不是特别大，最重要的地方在Repeat中的1，2两个步骤，其中，步骤1将固定住聚类中心$c_1, c_2, …, c_k$，更新聚类集$C_1, C_2, …, C_k$。步骤2固定住聚类集$C_1, C_2, …, C_k$，更新聚类中心$c_1, c_2, …, c_k$。
 
@@ -118,6 +118,147 @@ $$ \sum min_{j \in \{1,…,k\}}||x^i - c_j||^2 $$
 - ”离最近中心点的距离“如何计算，实际上非常简单，就是当前样本距离各个中心点的距离中，最小的那个距离。
 - 既然概率正比于 ”距离“ ，那么离群点的”距离“肯定是最大的，它的概率肯定是最大的，可是为什么算法不一定会选择它呢？举个例子说明，如果我们现在有一个聚类集合$S={x_1,x_2,x_3}$,和离群点$x_o$，假设选中 $x_o$的概率为 $1/3$ , 选中 $x_1, x_2, x_3$的概率分别为 $2/9$，这样看，即使$x_o$的概率很大，但是它只有1个，而 $x_1, x_2, x_3$ 即使每个概率不大，但是我们只要随便选中其中一个都是可以的(这是因为它们都在一个聚类簇中，只要选择聚类簇中任何一个点当聚类中心都可以)，所以可以把他们的概率相加，最后得到的概率就大于选中 $x_o$的概率。
 
+## In Action
+
+当然，在实际项目中，我们可能不会自己实现`k-means`算法， 一般我们都会用现成的比较好的一些机器学习库，我们这里结合`scikit-learn`来看一下，它是如何实现`k-means`算法的。
+
+首先看一下，`sklearn.cluster.k_means`模块下的函数`k_means`方法:
+
+```python
+def k_means(X, n_clusters, init='k-means++', precompute_distances='auto',
+            n_init=10, max_iter=300, verbose=False,
+            tol=1e-4, random_state=None, copy_x=True, n_jobs=1,
+            algorithm="auto", return_n_iter=False):
+```
+
+首先，我们看到参数有一个`init`，这里是指定k-means初始化方法，这里我们看下注释:
+
+```python
+"""
+    init : {'k-means++', 'random', or ndarray, or a callable}, optional
+        Method for initialization, default to 'k-means++':
+
+        'k-means++' : selects initial cluster centers for k-mean
+        clustering in a smart way to speed up convergence. See section
+        Notes in k_init for more details.
+
+        'random': generate k centroids from a Gaussian with mean and
+        variance estimated from the data.
+
+        If an ndarray is passed, it should be of shape (n_clusters, n_features)
+        and gives the initial centers.
+
+        If a callable is passed, it should take arguments X, k and
+        and a random state and return an initialization.
+"""
+```
+
+可以看到，`sklearn`实现了2种初始化算法，一个是随机初始化算法，另一个是`k-means++`算法，默认采用的是`k-means++`算法。然后，我们先看一下`sklearn`实现`k-means++`的代码:
+
+```python
+
+def _k_init(X, n_clusters, x_squared_norms, random_state, n_local_trials=None):
+    """Init n_clusters seeds according to k-means++
+
+    Parameters
+    -----------
+    X : array or sparse matrix, shape (n_samples, n_features)
+        The data to pick seeds for. To avoid memory copy, the input data
+        should be double precision (dtype=np.float64).
+
+    n_clusters : integer
+        The number of seeds to choose
+
+    x_squared_norms : array, shape (n_samples,)
+        Squared Euclidean norm of each data point.
+
+    random_state : numpy.RandomState
+        The generator used to initialize the centers.
+
+    n_local_trials : integer, optional
+        The number of seeding trials for each center (except the first),
+        of which the one reducing inertia the most is greedily chosen.
+        Set to None to make the number of trials depend logarithmically
+        on the number of seeds (2+log(k)); this is the default.
+
+    Notes
+    -----
+    Selects initial cluster centers for k-mean clustering in a smart way
+    to speed up convergence. see: Arthur, D. and Vassilvitskii, S.
+    "k-means++: the advantages of careful seeding". ACM-SIAM symposium
+    on Discrete algorithms. 2007
+
+    Version ported from http://www.stanford.edu/~darthur/kMeansppTest.zip,
+    which is the implementation used in the aforementioned paper.
+    """
+    n_samples, n_features = X.shape
+
+    centers = np.empty((n_clusters, n_features), dtype=X.dtype)
+
+    assert x_squared_norms is not None, 'x_squared_norms None in _k_init'
+
+    # Set the number of local seeding trials if none is given
+    if n_local_trials is None:
+        # This is what Arthur/Vassilvitskii tried, but did not report
+        # specific results for other than mentioning in the conclusion
+        # that it helped.
+        n_local_trials = 2 + int(np.log(n_clusters))
+
+    # Pick first center randomly
+    center_id = random_state.randint(n_samples)
+    if sp.issparse(X):
+        centers[0] = X[center_id].toarray()
+    else:
+        centers[0] = X[center_id]
+
+    # Initialize list of closest distances and calculate current potential
+    closest_dist_sq = euclidean_distances(
+        centers[0, np.newaxis], X, Y_norm_squared=x_squared_norms,
+        squared=True)
+    current_pot = closest_dist_sq.sum()
+
+    # Pick the remaining n_clusters-1 points
+    for c in range(1, n_clusters):
+        # Choose center candidates by sampling with probability proportional
+        # to the squared distance to the closest existing center
+        rand_vals = random_state.random_sample(n_local_trials) * current_pot
+        candidate_ids = np.searchsorted(stable_cumsum(closest_dist_sq),
+                                        rand_vals)
+
+        # Compute distances to center candidates
+        distance_to_candidates = euclidean_distances(
+            X[candidate_ids], X, Y_norm_squared=x_squared_norms, squared=True)
+
+        # Decide which candidate is the best
+        best_candidate = None
+        best_pot = None
+        best_dist_sq = None
+        for trial in range(n_local_trials):
+            # Compute potential when including center candidate
+            new_dist_sq = np.minimum(closest_dist_sq,
+                                     distance_to_candidates[trial])
+            new_pot = new_dist_sq.sum()
+
+            # Store result if it is the best local trial so far
+            if (best_candidate is None) or (new_pot < best_pot):
+                best_candidate = candidate_ids[trial]
+                best_pot = new_pot
+                best_dist_sq = new_dist_sq
+
+        # Permanently add best center candidate found in local tries
+        if sp.issparse(X):
+            centers[c] = X[best_candidate].toarray()
+        else:
+            centers[c] = X[best_candidate]
+        current_pot = best_pot
+        closest_dist_sq = best_dist_sq
+
+    return centers
+```
+
+该算法的是基于 k-means++:the advantages of careful seeding[2]实现的，有兴趣的可以看一下这篇论文。代码第49行，可以看到，第一个初始中心是随机初始化的。代码62行，通过循环，依次初始化其他的聚类中心。
+
 # Reference
 
 1. Lloyd, Stuart P. Least squares quantization in PCM[J]. IEEE Transactions on Information Theory, 1982, 28(2):129-137.
+2. Arthur D, Vassilvitskii S. k-means++:the advantages of careful seeding[C]// Eighteenth Acm-Siam Symposium on Discrete Algorithms. Society for Industrial and Applied Mathematics, 2007:1027-1035.
