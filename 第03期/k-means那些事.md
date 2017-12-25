@@ -10,8 +10,10 @@
 
 ​	基于这个定义，选择不同的距离计算公式，有以下三种具体的算法:
 
-- **k-means**: find center partitions $c_1, c_2, …, c_k$ to minimize $ \sum _{i=1}^n min_{j \in\{i, …,k\}}d^2(x^i, c_j)$ 
-- **k-median**: find center partitions $c_1, c_2, …, c_k$ to minimize $ \sum _{i=1}^n min_{j \in\{i, …,k\}}d(x^i, c_j)$ 
+- **k-means**: find center partitions $c_1, c_2, …, c_k$ to minimize 
+$$ \sum min_{j \in\{i, …,k\}}d^2(x^i, c_j) $$ 
+- **k-median**: find center partitions $c_1, c_2, …, c_k$ to minimize 
+$$ \sum min_{j \in\{i, …,k\}}d(x^i, c_j) $$ 
 - **k-center**: find partition to minimize the maximum radius
 
 ## Euclidean k-means clustering
@@ -28,7 +30,7 @@
 
 > **Input**: A set of n datapoints $x^1, x^2, …, x^n$ in $R^d$
 >
-> **Initialize** centers $c1, c2, …, ck \in R^d$ and clusters $C_1, C_2, …, C_k$ in any way.
+> **Initialize** centers $c_1, c_2, …, c_k \in R^d$ and clusters $C_1, C_2, …, C_k$ in any way.
 >
 > **Repeat** until there is no further change in the cost.
 >  1. For each j: $C_j <- \{x \in S\ whose\ closest\ center\ is\ c_j\}$
