@@ -24,7 +24,8 @@ $$ \sum min_{j \in\{i, …,k\}}d(x^i, c_j) $$
 >
 > **Output**: k representatives $c_1, c_2, …, c_k \in R^d$ 
 >
-> **Objective**: choose $c_1, c_2, …, c_k \in R^d$ to minimize  $\sum _{i=1}^n min_{j \in \{1,…,k\}}||x^i - c_j||^2$
+> **Objective**: choose $c_1, c_2, …, c_k \in R^d$ to minimize  
+$$\sum _{i=1}^n min_{j \in \{1,…,k\}}||x^i - c_j||^2$$
 
 求解该算法的最优解是一个NP难的问题，所有我们没有办法获得最优解，当然，当k=1或d=1这种特殊情况下，是可以获得最优解，有兴趣的可以自行推导一下， 这里不在赘述，这里我们主要介绍Lloyd's method[1]，该方法的核心算法如下:
 
