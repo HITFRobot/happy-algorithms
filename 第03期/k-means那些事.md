@@ -58,7 +58,7 @@
 
 ### 1. Random Initialization
 
-在种方式是最简单的方式，就是随机选k个点作为聚类中心，虽然简单，但是会存在问题，我们看下面的这个例子:
+这种初始化方式是最简单的方式，就是随机选k个点作为聚类中心，虽然简单，但是会存在问题，我们看下面的这个例子:
 
 ![](https://github.com/neuclil/happy-algorithms/blob/master/%E7%AC%AC03%E6%9C%9F/images/k-means/random%20init.png?raw=true)
 
@@ -248,8 +248,8 @@ def _k_init(X, n_clusters, x_squared_norms, random_state, n_local_trials=None):
         # Permanently add best center candidate found in local tries
         if sp.issparse(X):
             centers[c] = X[best_candidate].toarray()
-        else:
-            centers[c] = X[best_candidate]
+        else:
+            centers[c] = X[best_candidate]
         current_pot = best_pot
         closest_dist_sq = best_dist_sq
 
@@ -258,7 +258,7 @@ def _k_init(X, n_clusters, x_squared_norms, random_state, n_local_trials=None):
 
 该算法的是基于 k-means++:the advantages of careful seeding[2]实现的，有兴趣的可以看一下这篇论文。代码第49行，可以看到，第一个初始中心是随机初始化的。代码62行，通过循环，依次初始化其他的聚类中心。
 
-# Reference
+# References
 
 1. Lloyd, Stuart P. Least squares quantization in PCM[J]. IEEE Transactions on Information Theory, 1982, 28(2):129-137.
 2. Arthur D, Vassilvitskii S. k-means++:the advantages of careful seeding[C]// Eighteenth Acm-Siam Symposium on Discrete Algorithms. Society for Industrial and Applied Mathematics, 2007:1027-1035.
