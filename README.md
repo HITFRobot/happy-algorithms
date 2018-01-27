@@ -23,4 +23,5 @@
 |                    📕                    |                    📗                    |                    📘                    |                    📙                    |
 | :--------------------------------------: | :--------------------------------------: | :--------------------------------------: | :--------------------------------------: |
 | [**第01期**](https://github.com/neuclil/happy-algorithms/tree/master/%E7%AC%AC01%E6%9C%9F) | [**第02期**](https://github.com/neuclil/happy-algorithms/tree/master/%E7%AC%AC02%E6%9C%9F) | [**第03期**](https://github.com/neuclil/happy-algorithms/tree/master/%E7%AC%AC03%E6%9C%9F) | [**第04期**](https://github.com/conghuaicai/happy-algorithms/tree/master/%E7%AC%AC04%E6%9C%9F) |
+| [**第05期**](https://github.com/conghuaicai/happy-algorithms/tree/master/%E7%AC%AC05%E6%9C%9F) |                                          |                                          |                                          |
 
